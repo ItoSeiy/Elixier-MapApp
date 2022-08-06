@@ -26,7 +26,7 @@ defmodule MapAppWeb.Router do
     get "/map/:id", MapController, :show # マップ詳細画面
 
     get "/map/:id/edit", MapController, :edit #マップ編集画面
-    patch "/map/:id", MapController, :update
+    patch "/map/:id", MapController, :update  #マップを差分(patch)のみ更新する
     put "/map/:id", MapController, :update
 
     delete "/map/:id", MapController, :delete
