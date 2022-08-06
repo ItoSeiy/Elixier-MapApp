@@ -1,5 +1,5 @@
 <%
-  first_location = 
+  first_location =
     if @locations != [], do: hd(@locations), else: %{lat: 35.658581, long: 139.745433}
 %>
 
@@ -15,9 +15,14 @@
   </tr>
   <%= for location <- @locations do %>
     <tr>
-      <td><%= location.lat %></td>
-      <td><%= location.long %></td>
+      <td><%= location.lat %></td><!--経度-->
+      <td><%= location.long %></td><!--緯度-->
       <td><%= location.location_name %></td>
+      <td>
+        <%= link "詳細", to: Routes.map_path(@conn, :show, location) %>
+        | <%= link "編集", to: Routes.map_path(@conn, :edit, location) %>
+        | <%= link "削除", to: Routes.map_path(@conn, :delete, location), method: :delete %>
+      </td>
     </tr>
   <% end %>
 </table>
@@ -26,11 +31,11 @@
 var map = L.map('map').setView([<%= first_location.lat %>, <%= first_location.long %>], 12);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 <%= for location <- @locations do %>
-L.marker([<%= location.lat %>, <%= location.long %>]).addTo(map)
+  L.marker([<%= location.lat %>, <%= location.long %>]).addTo(map)
     .bindPopup('<%= location.location_name %>')
     .openPopup();
 <% end %>

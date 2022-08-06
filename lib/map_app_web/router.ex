@@ -19,9 +19,17 @@ defmodule MapAppWeb.Router do
 
     get "/", PageController, :index
 
-    get "/map", MapController, :index
-    get "/map/new", MapController, :new
-    post "/map", MapController, :create
+    get "/map", MapController, :index   # マップ表示
+    get "/map/new", MapController, :new # マップ作成画面
+    post "/map", MapController, :create # マップ作成リクエスト
+
+    get "/map/:id", MapController, :show # マップ詳細画面
+
+    get "/map/:id/edit", MapController, :edit #マップ編集画面
+    patch "/map/:id", MapController, :update
+    put "/map/:id", MapController, :update
+
+    delete "/map/:id", MapController, :delete
   end
 
   # Other scopes may use custom stacks.
