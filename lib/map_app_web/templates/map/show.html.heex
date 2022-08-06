@@ -6,15 +6,26 @@
         <th>経度</th>
         <th>場所名</th>
     </tr>
-    <tr>
         <td><%= @location.lat %></td>
         <td><%= @location.long %></td>
         <td><%= @location.location_name %></td>
+    <%=if Map.get(@location, :id) != nil do %>
         <td>
             <%= link "編集", to: Routes.map_path(@conn, :edit, @location) %>
             | <%= link "削除", to: Routes.map_path(@conn, :delete, @location), method: :delete %>
         </td>
-    </tr>
+    <%else %>
+        <td>
+            <.form let={f} for={@changeset} action={Routes.map_path(@conn, :create)}>
+                <%=hidden_input f, :lat, value: @location.lat %>
+                <%=hidden_input f, :long, value: @location.long %>
+                <%=hidden_input f, :location_name, value: @location.location_name %>
+                <div>
+                    <%=submit "登録" %>
+                </div>
+            </.form>
+        </td>
+    <%end %>
 </table>
 
 <span><%= link "戻る", to: Routes.map_path(@conn, :index) %></span>

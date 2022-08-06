@@ -57,4 +57,17 @@ defmodule MapAppWeb.MapController do
     |> put_flash(:info, "削除しました。")
     |> redirect(to: Routes.map_path(conn, :index))
   end
+
+  def search(conn, %{"name" => name}) do
+    case Geocoder.call(name) do
+      {:ok, coordinates} ->
+        location = %Location{lat: coordinates.lat, long: coordinates.lon, location_name: name}
+        changeset = Location.changeset(location, %{})
+        render(conn, "show.html", location: location, changeset: changeset)
+      _ ->
+        conn
+        |> put_flash(:info, "検索結果は見つかりませんでした。")
+        |> redirect(to: Routes.map_path(conn, :index))
+    end
+  end
 end
